@@ -1,50 +1,46 @@
-# React + TypeScript + Vite
+# My Codeforces Journal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**My Codeforces Journal** is a Chrome extension that helps Codeforces users track the problems they've solved. With just a click, the extension stores the details of the current problem to a Google Spreadsheet that the user has connected. This makes it easy to maintain a personal log of problems solved over time.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **One-click Storage**: Save the current Codeforces problem you’ve solved with a single click.
+- **Spreadsheet Integration**: Link your own Google Spreadsheet to store and organize problems in a format that suits you.
+- **Problem Details Captured**: The extension stores key information such as problem URL, problem name, and problem rating.
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Prerequisites
 
-- Configure the top-level `parserOptions` property like this:
+Before you can use the extension, make sure you have the following:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- A Google Spreadsheet where the problems will be stored.
+- The Codeforces Journal Chrome extension installed and authorized to access your spreadsheet.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Installation
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. Clone or download this repository.
+2. Open Chrome and go to `chrome://extensions/`.
+3. Enable **Developer mode** in the top right corner.
+4. Click on **Load unpacked** and select the folder where the project files are saved.
+5. The extension should now be visible in your Chrome toolbar.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Spreadsheet Setup
+
+1. Create a new Google Spreadsheet.
+2. Make sure the spreadsheet has appropriate columns for storing the problem details (e.g., Problem Name, Problem URL, Rating, etc.).
+3. Follow the extension’s instructions to connect your spreadsheet via Google Sheets API.
+
+## Usage
+
+1. Open any Codeforces problem page.
+2. Once you’ve solved the problem, click on the **My Codeforces Journal** extension icon.
+3. The problem details will be automatically saved to the connected spreadsheet.
+
+## Permissions
+
+This extension requires the following permissions:
+
+- **Active Tab**: To access the URL of the current tab when saving the problem.
+- **Storage**: To store your connected spreadsheet details.
+- **Scripting**: To run JavaScript
