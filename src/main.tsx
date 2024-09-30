@@ -1,10 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+// Initialize global variables
+window.APP_SCRIPT_URL = "https://script.google.com/macros/s/SECRET_HASH/exec";
+window.CODEFORCES_URL = "https://codeforces.com/api/user.info?handles=USERID";
+window.CODEFORCES_VERIFIED = false;
+window.APPSCRIPT_VERIFIED = false;
+window.SETUP_COMPLETE = false;
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
     <App />
-  </StrictMode>,
-)
+  </React.StrictMode>
+);

@@ -1,5 +1,5 @@
 {
-  "name": "my-chrome-extension",
+  "name": "my-codeforces-journal",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.10.0",
+    "@types/chrome": "^0.0.270",
     "@types/node": "^22.5.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -32,6 +34,7 @@
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^5.4.5",
+    "vite-plugin-static-copy": "^1.0.6"
   }
 }

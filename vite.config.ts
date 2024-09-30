@@ -1,20 +1,32 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { resolve } from "path";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
-// Get the current directory in an ES module environment
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Vite configuration
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: "manifest.json",
+          dest: ".",
+        },
+        {
+          src: "public/background.js",
+          dest: ".",
+        },
+        {
+          src: "icon.png",
+          dest: ".",
+        },
+      ],
+    }),
+  ],
   build: {
     rollupOptions: {
       input: {
-        popup: resolve(__dirname, 'popup.html'), // Corrected usage of __dirname
-        // Add any additional entry points here (like background, content script, etc.)
+        popup: resolve(__dirname, "index.html"),
       },
       output: {
         entryFileNames: `assets/[name].js`,
@@ -23,4 +35,5 @@ export default defineConfig({
       },
     },
   },
+  publicDir: "public",
 });
