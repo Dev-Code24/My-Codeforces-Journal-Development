@@ -4,13 +4,13 @@ import axios from "axios";
 type Params = (
   appScriptUrl: string,
   setError: React.Dispatch<React.SetStateAction<boolean>>,
-  setPageNumber:React.Dispatch<React.SetStateAction<number>>,
+  setPageNumber: React.Dispatch<React.SetStateAction<number>> | undefined,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => void;
 
 export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, setPageNumber, setLoading) => {
   if (window.APPSCRIPT_VERIFIED) {
-    setPageNumber(4);
+    if (setPageNumber) setPageNumber(4);
     return;
   }
 
@@ -22,23 +22,21 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
 
     const response = await axios.post(
       fetchUrl,
-      { action: "initialize" }, 
+      { action: "initialize" },
       {
         headers: {
-          "Content-Type": "text/plain", 
+          "Content-Type": "text/plain",
         },
       }
     );
-
-    setLoading(false);
 
     if (response.status === 200) {
       const data = response.data;
       if (data.status === "success") {
         window.APPSCRIPT_VERIFIED = true;
         window.SETUP_COMPLETE = true;
-        setError(false);
-        setPageNumber(4);
+        setLoading(false);
+        if (setPageNumber) setPageNumber(4);
         console.log("Sheet initialized successfully:", data.message);
       } else {
         setError(true);

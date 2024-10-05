@@ -1,12 +1,10 @@
 // https://script.google.com/macros/s/AKfycbz7W2YZN2_gSvvjcZBn954J57smt5n4XWKAZDEH-M877Cmfpj4FbRbY8kL8yCCs0SJbpw/exec
 import React from "react";
-import Button from "../../ui/button";
 import { checkAppScriptUrl } from "../../util/utility";
 import Loader from "../loader";
 import Alert from "../alert";
 
 interface Props {
-  pageNumber: number;
   url: string;
   setUrl: React.Dispatch<React.SetStateAction<string>>;
   error: boolean;
@@ -14,15 +12,15 @@ interface Props {
   onTryAgain: () => void;
 }
 
-const AppsScriptForm: React.FC<Props> = ({ pageNumber, url, setUrl, error, isLoading, onTryAgain }) => {
+const AppsScriptForm: React.FC<Props> = ({ url, setUrl, error, isLoading, onTryAgain }) => {
   return (
     <div className="flex justify-center items-center h-full">
       {isLoading ? (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center min-h-[190px]">
           <Loader>Verifying...</Loader>
         </div>
-      ) : !error && pageNumber === 3 ? (
-        <div className="w-[355px] h-full flex flex-col">
+      ) : !error ? (
+        <div className="w-[355px] h-full flex flex-col min-h-[190px]">
           <label htmlFor="codeforcesId" className="font-semibold text-lg">
             Your Spreadsheet's AppScript Url:
           </label>

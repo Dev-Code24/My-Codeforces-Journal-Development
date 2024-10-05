@@ -24,10 +24,6 @@ const StartingPage: React.FC = () => {
     problemTopics: "",
   });
 
-  // useEffect(() => {
-  //   console.log(codeforcesId);
-  // }, [codeforcesId]);
-
   const handleTryAgainCodeforcesForm = () => {
     setCodeforcesId("https://codeforces.com/profile/user__Id");
     setError(false);
@@ -49,7 +45,10 @@ const StartingPage: React.FC = () => {
             setError={setError}
             isLoading={isLoading}
             setLoading={setLoading}
-            onTryAgain={handleTryAgainCodeforcesForm}
+            handleTryAgainCodeforcesForm={handleTryAgainCodeforcesForm}
+            appScriptUrl={appScriptUrl}
+            setAppScriptUrl={setAppScriptUrl}
+            handleTryAgainAppScriptForm={handleTryAgainAppScriptForm}
           />
         )}
       </div>
@@ -69,7 +68,6 @@ const StartingPage: React.FC = () => {
             )}
             {pageNumber === 3 && (
               <AppsScriptForm
-                pageNumber={pageNumber}
                 url={appScriptUrl}
                 setUrl={setAppScriptUrl}
                 error={error}
