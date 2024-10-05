@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Button from "../ui/button";
 import WelcomePage from "./welcome-page";
-import SpreadsheetForm from "./forms/spreadsheet-form";
+import AppsScriptForm from "./forms/appscript-form";
 import CodeforcesForm from "./forms/codeforces-form";
 import { handleVerifyCodeforcesId } from "../services/verify-codeforces-id";
 import { handleVerifyAppScriptUrl } from "../services/verify-appscript-url";
 import AddProblems from "./add-problems";
+import SettingsMenu from "./settings/settings-menu";
 
 const StartingPage: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -23,9 +24,9 @@ const StartingPage: React.FC = () => {
     problemTopics: "",
   });
 
-  useEffect(() => {
-    console.log(codeforcesId);
-  }, [codeforcesId]);
+  // useEffect(() => {
+  //   console.log(codeforcesId);
+  // }, [codeforcesId]);
 
   const handleTryAgainCodeforcesForm = () => {
     setCodeforcesId("https://codeforces.com/profile/user__Id");
@@ -38,7 +39,20 @@ const StartingPage: React.FC = () => {
   return (
     <div className="p-2 h-full flex flex-col">
       {/* Top */}
-      <h1 className="text-lg font-semibold mb-4 text-center">My Codeforces Journal</h1>
+      <div className={`flex items-center ${window.SETUP_COMPLETE ? "justify-between mx-4" : "justify-center"}`}>
+        <h1 className="text-lg font-semibold text-center">My Codeforces Journal</h1>
+        {window.SETUP_COMPLETE && (
+          <SettingsMenu
+            codeforcesId={codeforcesId}
+            setCodeforcesId={setCodeforcesId}
+            error={error}
+            setError={setError}
+            isLoading={isLoading}
+            setLoading={setLoading}
+            onTryAgain={handleTryAgainCodeforcesForm}
+          />
+        )}
+      </div>
       <div className="flex-grow">
         {/* Center */}
         {window.SETUP_COMPLETE === false ? (
@@ -46,7 +60,6 @@ const StartingPage: React.FC = () => {
             {pageNumber === 1 && <WelcomePage />}
             {pageNumber === 2 && (
               <CodeforcesForm
-                pageNumber={pageNumber}
                 codeforcesId={codeforcesId}
                 setCodeforcesId={setCodeforcesId}
                 error={error}
@@ -55,7 +68,7 @@ const StartingPage: React.FC = () => {
               />
             )}
             {pageNumber === 3 && (
-              <SpreadsheetForm
+              <AppsScriptForm
                 pageNumber={pageNumber}
                 url={appScriptUrl}
                 setUrl={setAppScriptUrl}

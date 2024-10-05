@@ -22,10 +22,10 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
 
     const response = await axios.post(
       fetchUrl,
-      { action: "initialize" }, // Payload data
+      { action: "initialize" }, 
       {
         headers: {
-          "Content-Type": "text/plain", // Set content type to text/plain
+          "Content-Type": "text/plain", 
         },
       }
     );

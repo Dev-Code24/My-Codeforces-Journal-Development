@@ -3,7 +3,7 @@ import React from "react";
 type Params = (
   codeforcesId: string,
   setError: React.Dispatch<React.SetStateAction<boolean>>,
-  setPageNumber: React.Dispatch<React.SetStateAction<number>>,
+  setPageNumber: React.Dispatch<React.SetStateAction<number>> | undefined,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => void;
 
@@ -18,25 +18,27 @@ export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, s
   // Perform verification if not already verified
 
   if (window.CODEFORCES_VERIFIED) {
-    setPageNumber(3);
+    if (setPageNumber) setPageNumber(3); // Call setPageNumber only if it's provided
     return;
   }
   setLoading(true);
+  console.log(codeforcesId);
+
   const userId = codeforcesId.substring(31);
-  const fetchUrl = window.CODEFORCES_URL!.replace("USERID", userId);
+  const url = "https://codeforces.com/api/user.info?handles=USERID";
+  const fetchUrl = url.replace("USERID", userId);
 
   const response = await fetch(fetchUrl);
-
-  setLoading(false);
 
   if (response.ok) {
     const data = await response.json();
     if (data?.status === "OK") {
       window.CODEFORCES_VERIFIED = true;
-      setError(false);
-      setPageNumber(3);
+      window.CODEFORCES_ID = userId;
+      window.CODEFORCES_AVATAR_URL = data?.result[0]?.avatar;
+      setLoading(false);
+      if (setPageNumber) setPageNumber(3);
       // chrome.storage.local.set({ CODEFORCES_VERIFIED: true }, () => {
-      //   setError(false);
       //   setPageNumber(3);
       // });
     } else {

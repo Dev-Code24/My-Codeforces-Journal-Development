@@ -5,7 +5,8 @@ import "./index.css";
 
 // Initialize global variables
 window.APP_SCRIPT_URL = "https://script.google.com/macros/s/SECRET_HASH/exec";
-window.CODEFORCES_URL = "https://codeforces.com/api/user.info?handles=USERID";
+window.CODEFORCES_ID = " ";
+window.CODEFORCES_AVATAR_URL = " ";
 window.CODEFORCES_VERIFIED = false;
 window.APPSCRIPT_VERIFIED = false;
 window.SETUP_COMPLETE = false;

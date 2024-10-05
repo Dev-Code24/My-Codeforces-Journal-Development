@@ -14,7 +14,7 @@ interface Props {
   onTryAgain: () => void;
 }
 
-const SpreadsheetForm: React.FC<Props> = ({ pageNumber, url, setUrl, error, isLoading, onTryAgain }) => {
+const AppsScriptForm: React.FC<Props> = ({ pageNumber, url, setUrl, error, isLoading, onTryAgain }) => {
   return (
     <div className="flex justify-center items-center h-full">
       {isLoading ? (
@@ -43,4 +43,4 @@ const SpreadsheetForm: React.FC<Props> = ({ pageNumber, url, setUrl, error, isLo
   );
 };
 
-export default SpreadsheetForm;
+export default AppsScriptForm;

@@ -5,7 +5,6 @@ import Loader from "../loader";
 import Alert from "../alert";
 
 interface Props {
-  pageNumber: number;
   codeforcesId: string;
   setCodeforcesId: (value: string) => void;
   error: boolean;
@@ -13,15 +12,15 @@ interface Props {
   onTryAgain: () => void;
 }
 
-const CodeforcesForm: React.FC<Props> = ({ pageNumber, codeforcesId, setCodeforcesId, error, isLoading, onTryAgain }) => {
+const CodeforcesForm: React.FC<Props> = ({ codeforcesId, setCodeforcesId, error, isLoading, onTryAgain }) => {
   return (
     <div className="flex justify-center items-center h-full">
       {isLoading ? (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center min-h-[190px]">
           <Loader>Verifying...</Loader>
         </div>
-      ) : !error && pageNumber === 2 ? (
-        <div className="w-[355px] h-full flex flex-col">
+      ) : !error ? (
+        <div className="w-[355px] min-h-[190px] h-full flex flex-col">
           <label htmlFor="codeforcesId" className="font-semibold text-lg">
             Your Codeforces Id:
           </label>
