@@ -4,10 +4,11 @@ type Params = (
   codeforcesId: string,
   setError: React.Dispatch<React.SetStateAction<boolean>>,
   setPageNumber: React.Dispatch<React.SetStateAction<number>> | undefined,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  closeModal: (() => void) | undefined
 ) => void;
 
-export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, setPageNumber, setLoading) => {
+export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, setPageNumber, setLoading, closeModal) => {
   // Uncomment when building and publishing
 
   // chrome.storage.local.get(["CODEFORCES_VERIFIED", "codeforcesId"], (result) => {
@@ -18,7 +19,7 @@ export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, s
   // Perform verification if not already verified
 
   if (window.CODEFORCES_VERIFIED) {
-    if (setPageNumber) setPageNumber(3); // Call setPageNumber only if it's provided
+    if (setPageNumber) setPageNumber(3);
     return;
   }
   setLoading(true);
@@ -44,8 +45,10 @@ export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, s
     } else {
       setError(true);
     }
+    if (closeModal) closeModal();
   } else {
     setError(true);
+    if (closeModal) closeModal();
   }
   // });
 };

@@ -42,13 +42,13 @@ const SettingsMenu: React.FC<SettingsProps> = ({
   const handleSubmit = () => {
     if (changeUrl === "codeforcesid") {
       window.CODEFORCES_VERIFIED = false;
-      handleVerifyCodeforcesId(codeforcesId, setError, undefined, setLoading);
+      handleVerifyCodeforcesId(codeforcesId, setError, undefined, setLoading, closeModal);
       if (error) {
         window.CODEFORCES_VERIFIED = true;
       }
     } else if (changeUrl === "appscripturl") {
       window.APPSCRIPT_VERIFIED = false;
-      handleVerifyAppScriptUrl(appScriptUrl, setError, undefined, setLoading);
+      handleVerifyAppScriptUrl(appScriptUrl, setError, undefined, setLoading, closeModal);
       if (error) {
         window.APPSCRIPT_VERIFIED = true;
       }

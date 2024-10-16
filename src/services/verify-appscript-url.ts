@@ -5,10 +5,11 @@ type Params = (
   appScriptUrl: string,
   setError: React.Dispatch<React.SetStateAction<boolean>>,
   setPageNumber: React.Dispatch<React.SetStateAction<number>> | undefined,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  closeModal: (() => void) | undefined
 ) => void;
 
-export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, setPageNumber, setLoading) => {
+export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, setPageNumber, setLoading, closeModal) => {
   if (window.APPSCRIPT_VERIFIED) {
     if (setPageNumber) setPageNumber(4);
     return;
@@ -46,9 +47,11 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
       setError(true);
       console.error("Error during initialization:", response.statusText);
     }
+    if (closeModal) closeModal();
   } catch (error) {
     setLoading(false);
     setError(true);
+    if (closeModal) closeModal();
     console.error("Request failed:", error);
   }
 };

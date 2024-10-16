@@ -91,11 +91,11 @@ const StartingPage: React.FC = () => {
                     <div className="flex-grow" />
                     {pageNumber == 2 ? (
                       <>
-                        <Button onClick={() => handleVerifyCodeforcesId(codeforcesId, setError, setPageNumber, setLoading)}>Next</Button>
+                        <Button onClick={() => handleVerifyCodeforcesId(codeforcesId, setError, setPageNumber, setLoading, undefined)}>Next</Button>
                       </>
                     ) : (
                       <>
-                        <Button onClick={() => handleVerifyAppScriptUrl(appScriptUrl, setError, setPageNumber, setLoading)}>Submit</Button>
+                        <Button onClick={() => handleVerifyAppScriptUrl(appScriptUrl, setError, setPageNumber, setLoading, undefined)}>Submit</Button>
                       </>
                     )}
                   </>
