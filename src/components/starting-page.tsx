@@ -7,6 +7,7 @@ import { handleVerifyCodeforcesId } from "../services/verify-codeforces-id";
 import { handleVerifyAppScriptUrl } from "../services/verify-appscript-url";
 import AddProblems from "./add-problems";
 import SettingsMenu from "./settings/settings-menu";
+import { storage } from "../storage-fallback";
 
 const StartingPage: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -14,6 +15,7 @@ const StartingPage: React.FC = () => {
   const [codeforcesId, setCodeforcesId] = useState("https://codeforces.com/profile/user__Id");
   const [error, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [setupComplete, setSetupComplete] = useState(false);
   const [problemDetails, setProblemDetails] = useState({
     problemName: "",
     problemRating: "",
@@ -23,6 +25,12 @@ const StartingPage: React.FC = () => {
     takeaways: "",
     problemTopics: "",
   });
+
+  useEffect(() => {
+    storage.get(["SETUP_COMPLETE"], (result) => {
+      setSetupComplete(result.SETUP_COMPLETE || false);
+    });
+  }, []);
 
   const handleTryAgainCodeforcesForm = () => {
     setCodeforcesId("https://codeforces.com/profile/user__Id");
@@ -35,9 +43,9 @@ const StartingPage: React.FC = () => {
   return (
     <div className="p-2 h-full flex flex-col">
       {/* Top */}
-      <div className={`flex items-center ${window.SETUP_COMPLETE ? "justify-between mx-4" : "justify-center"}`}>
+      <div className={`flex items-center ${setupComplete ? "justify-between mx-4" : "justify-center"}`}>
         <h1 className="text-lg font-semibold text-center">My Codeforces Journal</h1>
-        {window.SETUP_COMPLETE && (
+        {setupComplete && (
           <SettingsMenu
             codeforcesId={codeforcesId}
             setCodeforcesId={setCodeforcesId}
@@ -54,7 +62,7 @@ const StartingPage: React.FC = () => {
       </div>
       <div className="flex-grow">
         {/* Center */}
-        {window.SETUP_COMPLETE === false ? (
+        {setupComplete === false ? (
           <div className="h-[285px]">
             {pageNumber === 1 && <WelcomePage />}
             {pageNumber === 2 && (

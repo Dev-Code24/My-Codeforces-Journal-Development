@@ -4,6 +4,7 @@ import { handleVerifyCodeforcesId } from "../../services/verify-codeforces-id";
 import Modal from "./modal";
 import { handleVerifyAppScriptUrl } from "../../services/verify-appscript-url";
 import AppsScriptForm from "../forms/appscript-form";
+import { storage } from "../../storage-fallback"; // Import the storage fallback utility
 
 interface SettingsProps {
   codeforcesId: string;
@@ -33,7 +34,7 @@ const SettingsMenu: React.FC<SettingsProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [changeUrl, setChangeUrl] = useState(" ");
-  const [avatarUrl, setAvatarUrl] = useState(window.CODEFORCES_AVATAR_URL);
+  const [avatarUrl, setAvatarUrl] = useState("");
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -41,23 +42,30 @@ const SettingsMenu: React.FC<SettingsProps> = ({
 
   const handleSubmit = () => {
     if (changeUrl === "codeforcesid") {
-      window.CODEFORCES_VERIFIED = false;
-      handleVerifyCodeforcesId(codeforcesId, setError, undefined, setLoading, closeModal);
-      if (error) {
-        window.CODEFORCES_VERIFIED = true;
-      }
+      // Reset CODEFORCES_VERIFIED in storage
+      storage.set({ CODEFORCES_VERIFIED: false }, () => {
+        handleVerifyCodeforcesId(codeforcesId, setError, undefined, setLoading, closeModal);
+        if (error) {
+          storage.set({ CODEFORCES_VERIFIED: true });
+        }
+      });
     } else if (changeUrl === "appscripturl") {
-      window.APPSCRIPT_VERIFIED = false;
-      handleVerifyAppScriptUrl(appScriptUrl, setError, undefined, setLoading, closeModal);
-      if (error) {
-        window.APPSCRIPT_VERIFIED = true;
-      }
+      // Reset APPSCRIPT_VERIFIED in storage
+      storage.set({ APPSCRIPT_VERIFIED: false }, () => {
+        handleVerifyAppScriptUrl(appScriptUrl, setError, undefined, setLoading, closeModal);
+        if (error) {
+          storage.set({ APPSCRIPT_VERIFIED: true });
+        }
+      });
     }
   };
 
   useEffect(() => {
-    setAvatarUrl(window.CODEFORCES_AVATAR_URL);
-  }, [avatarUrl, window.CODEFORCES_AVATAR_URL]);
+    // Fetch CODEFORCES_AVATAR_URL from storage and set it in state
+    storage.get(["CODEFORCES_AVATAR_URL"], (result) => {
+      setAvatarUrl(result.CODEFORCES_AVATAR_URL || "");
+    });
+  }, [avatarUrl]);
 
   return (
     <div className="relative inline-block text-left">

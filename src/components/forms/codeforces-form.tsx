@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../../ui/button";
 import { checkCodeforcesUrl } from "../../util/utility";
 import Loader from "../loader";
 import Alert from "../alert";
