@@ -1,4 +1,5 @@
 import React from "react";
+import { storage } from "../storage-fallback"; // Import the storage utility
 
 type Params = (
   codeforcesId: string,
@@ -9,46 +10,60 @@ type Params = (
 ) => void;
 
 export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, setPageNumber, setLoading, closeModal) => {
-  // Uncomment when building and publishing
+  // Use the storage utility to get the necessary variables
+  storage.get(["CODEFORCES_VERIFIED", "CODEFORCES_ID", "CODEFORCES_AVATAR_URL"], async (result) => {
+    const { CODEFORCES_VERIFIED } = result;
 
-  // chrome.storage.local.get(["CODEFORCES_VERIFIED", "codeforcesId"], (result) => {
-  // if (result.CODEFORCES_VERIFIED) {
-  //   setPageNumber(3);
-  //   return;
-  // }
-  // Perform verification if not already verified
-
-  if (window.CODEFORCES_VERIFIED) {
-    if (setPageNumber) setPageNumber(3);
-    return;
-  }
-  setLoading(true);
-  console.log(codeforcesId);
-
-  const userId = codeforcesId.substring(31);
-  const url = "https://codeforces.com/api/user.info?handles=USERID";
-  const fetchUrl = url.replace("USERID", userId);
-
-  const response = await fetch(fetchUrl);
-
-  if (response.ok) {
-    const data = await response.json();
-    if (data?.status === "OK") {
-      window.CODEFORCES_VERIFIED = true;
-      window.CODEFORCES_ID = userId;
-      window.CODEFORCES_AVATAR_URL = data?.result[0]?.avatar;
-      setLoading(false);
+    // If Codeforces ID is already verified, proceed to next step
+    if (CODEFORCES_VERIFIED) {
       if (setPageNumber) setPageNumber(3);
-      // chrome.storage.local.set({ CODEFORCES_VERIFIED: true }, () => {
-      //   setPageNumber(3);
-      // });
-    } else {
-      setError(true);
+      return;
     }
-    if (closeModal) closeModal();
-  } else {
-    setError(true);
-    if (closeModal) closeModal();
-  }
-  // });
+
+    setLoading(true);
+    console.log(codeforcesId);
+
+    const userId = codeforcesId.substring(31);
+    const url = "https://codeforces.com/api/user.info?handles=USERID";
+    const fetchUrl = url.replace("USERID", userId);
+
+    try {
+      const response = await fetch(fetchUrl);
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data?.status === "OK") {
+          // Use storage utility to set the verified state and avatar URL
+          storage.set(
+            {
+              CODEFORCES_VERIFIED: true,
+              CODEFORCES_ID: userId,
+              CODEFORCES_AVATAR_URL: data?.result[0]?.avatar,
+            },
+            () => {
+              // Also update the global variables if necessary
+              window.CODEFORCES_VERIFIED = true;
+              window.CODEFORCES_ID = userId;
+              window.CODEFORCES_AVATAR_URL = data?.result[0]?.avatar;
+            }
+          );
+
+          setLoading(false);
+          if (setPageNumber) setPageNumber(3);
+        } else {
+          setError(true);
+        }
+      } else {
+        setError(true);
+      }
+
+      if (closeModal) closeModal();
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+      console.error("Error fetching Codeforces data:", error);
+
+      if (closeModal) closeModal();
+    }
+  });
 };
