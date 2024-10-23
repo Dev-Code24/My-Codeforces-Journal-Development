@@ -4,7 +4,7 @@ import { handleVerifyCodeforcesId } from "../../services/verify-codeforces-id";
 import Modal from "./modal";
 import { handleVerifyAppScriptUrl } from "../../services/verify-appscript-url";
 import AppsScriptForm from "../forms/appscript-form";
-import { storage } from "../../storage-fallback"; // Import the storage fallback utility
+import { storage } from "../../storage-fallback";
 
 interface SettingsProps {
   codeforcesId: string;
@@ -65,7 +65,23 @@ const SettingsMenu: React.FC<SettingsProps> = ({
     storage.get(["CODEFORCES_AVATAR_URL"], (result) => {
       setAvatarUrl(result.CODEFORCES_AVATAR_URL || "");
     });
-  }, [avatarUrl]);
+    const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }, areaName: string) => {
+      if (areaName === "local" && changes.CODEFORCES_AVATAR_URL) {
+        setAvatarUrl(changes.CODEFORCES_AVATAR_URL.newValue || "");
+      }
+    };
+
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.onChanged) {
+      chrome.storage.onChanged.addListener(handleStorageChange);
+    }
+
+    // Cleanup listeners when the component is unmounted
+    return () => {
+      if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.onChanged) {
+        chrome.storage.onChanged.removeListener(handleStorageChange);
+      }
+    };
+  }, [avatarUrl, window.CODEFORCES_AVATAR_URL]);
 
   return (
     <div className="relative inline-block text-left">

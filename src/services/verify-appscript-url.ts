@@ -1,6 +1,6 @@
 // https://script.google.com/macros/s/AKfycbz7W2YZN2_gSvvjcZBn954J57smt5n4XWKAZDEH-M877Cmfpj4FbRbY8kL8yCCs0SJbpw/exec
 import axios from "axios";
-import { storage } from '../storage-fallback'; // Import the storage fallback utility
+import { storage } from "../storage-fallback"; // Import the storage fallback utility
 
 type Params = (
   appScriptUrl: string,
@@ -11,9 +11,8 @@ type Params = (
 ) => void;
 
 export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, setPageNumber, setLoading, closeModal) => {
-  
   // Use the fallback storage for fetching variables
-  storage.get(['APP_SCRIPT_URL', 'APPSCRIPT_VERIFIED', 'SETUP_COMPLETE'], async (result) => {
+  storage.get(["APP_SCRIPT_URL", "APPSCRIPT_VERIFIED", "SETUP_COMPLETE"], async (result) => {
     const { APP_SCRIPT_URL, APPSCRIPT_VERIFIED } = result;
 
     if (APPSCRIPT_VERIFIED) {
@@ -41,14 +40,17 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
         const data = response.data;
         if (data.status === "success") {
           // Use fallback storage for setting variables
-          storage.set({
-            APPSCRIPT_VERIFIED: true,
-            SETUP_COMPLETE: true,
-          }, () => {
-            // Also update window globals if necessary
-            window.APPSCRIPT_VERIFIED = true;
-            window.SETUP_COMPLETE = true;
-          });
+          storage.set(
+            {
+              APPSCRIPT_VERIFIED: true,
+              SETUP_COMPLETE: true,
+            },
+            () => {
+              // Also update window globals if necessary
+              window.APPSCRIPT_VERIFIED = true;
+              window.SETUP_COMPLETE = true;
+            }
+          );
 
           setLoading(false);
           if (setPageNumber) setPageNumber(4);
@@ -63,7 +65,6 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
       }
 
       if (closeModal) closeModal();
-
     } catch (error) {
       setLoading(false);
       setError(true);

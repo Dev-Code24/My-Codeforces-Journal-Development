@@ -28,9 +28,25 @@ const StartingPage: React.FC = () => {
 
   useEffect(() => {
     storage.get(["SETUP_COMPLETE"], (result) => {
-      setSetupComplete(result.SETUP_COMPLETE || false);
+      setSetupComplete(result.SETUP_COMPLETE || "");
     });
-  }, []);
+    const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }, areaName: string) => {
+      if (areaName === "local" && changes.SETUP_COMPLETE) {
+        setSetupComplete(changes.SETUP_COMPLETE.newValue || "");
+      }
+    };
+
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.onChanged) {
+      chrome.storage.onChanged.addListener(handleStorageChange);
+    }
+
+    // Cleanup listeners when the component is unmounted
+    return () => {
+      if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.onChanged) {
+        chrome.storage.onChanged.removeListener(handleStorageChange);
+      }
+    };
+  }, [window.SETUP_COMPLETE]);
 
   const handleTryAgainCodeforcesForm = () => {
     setCodeforcesId("https://codeforces.com/profile/user__Id");
@@ -62,7 +78,7 @@ const StartingPage: React.FC = () => {
       </div>
       <div className="flex-grow">
         {/* Center */}
-        {setupComplete === false ? (
+        {!setupComplete ? (
           <div className="h-[285px]">
             {pageNumber === 1 && <WelcomePage />}
             {pageNumber === 2 && (
@@ -89,7 +105,7 @@ const StartingPage: React.FC = () => {
         )}
 
         {/* Bottom */}
-        {pageNumber < 4 && (
+        {!setupComplete && pageNumber < 4 && (
           <div className="buttons flex justify-between items-center mx-auto max-w-[355px] mt-2">
             {!error && (
               <>
