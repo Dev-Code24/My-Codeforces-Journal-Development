@@ -1,6 +1,6 @@
 // https://script.google.com/macros/s/AKfycbz7W2YZN2_gSvvjcZBn954J57smt5n4XWKAZDEH-M877Cmfpj4FbRbY8kL8yCCs0SJbpw/exec
 import axios from "axios";
-import { storage } from "../storage-fallback"; // Import the storage fallback utility
+import { storage } from "../storage-fallback";
 
 type Params = (
   appScriptUrl: string,
@@ -11,9 +11,8 @@ type Params = (
 ) => void;
 
 export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, setPageNumber, setLoading, closeModal) => {
-  // Use the fallback storage for fetching variables
   storage.get(["APP_SCRIPT_URL", "APPSCRIPT_VERIFIED", "SETUP_COMPLETE"], async (result) => {
-    const { APP_SCRIPT_URL, APPSCRIPT_VERIFIED } = result;
+    const { APPSCRIPT_VERIFIED } = result;
 
     if (APPSCRIPT_VERIFIED) {
       if (setPageNumber) setPageNumber(4);
@@ -24,7 +23,16 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
 
     try {
       const SECRET_HASH = appScriptUrl.split("/")[5];
-      const fetchUrl = `${APP_SCRIPT_URL.replace("SECRET_HASH", SECRET_HASH)}?action=initialize`;
+      const defaultUrl = "https://script.google.com/macros/s/SECRET_HASH/exec";
+      const fetchUrl = `${defaultUrl.replace("SECRET_HASH", SECRET_HASH)}?action=initialize`;
+      storage.set(
+        {
+          APP_SCRIPT_URL: appScriptUrl,
+        },
+        () => {
+          window.APP_SCRIPT_URL = appScriptUrl;
+        }
+      );
 
       const response = await axios.post(
         fetchUrl,

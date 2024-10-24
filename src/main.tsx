@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { storage } from "./storage-fallback"; // Import storageFallback
+import { storage } from "./storage-fallback";
 
 // Default values for Chrome storage variables
 const defaultValues = {
-  APP_SCRIPT_URL: "https://script.google.com/macros/s/SECRET_HASH/exec",
-  CODEFORCES_ID: " ",
+  APP_SCRIPT_URL: " ",
+  CODEFORCES_ID: "",
   CODEFORCES_AVATAR_URL: " ",
   CODEFORCES_VERIFIED: false,
   APPSCRIPT_VERIFIED: false,
