@@ -7,7 +7,13 @@
     "default_popup": "index.html",
     "default_icon": "icon.png"
   },
-  "permissions": ["activeTab", "storage", "scripting"],
+  "permissions": ["tabs", "activeTab", "storage", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["https://codeforces.com/*"],
+      "js": ["assets/contentScript.js"]
+    }
+  ],
   "background": {
     "service_worker": "background.js"
   }

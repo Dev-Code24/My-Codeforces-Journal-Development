@@ -10,3 +10,17 @@ export const checkAppScriptUrl = (url: string) => {
 
   return false;
 };
+
+export const checkCodeforcesSite = (url: string, setError: React.Dispatch<React.SetStateAction<string>>) => {
+  if (!url.includes("https://codeforces.com/")) {
+    setError("Extension works only with Codeforces !");
+    return false;
+  }
+
+  if (!url.includes("problem")) {
+    setError("Open a problem page on Codeforces.");
+    return false;
+  }
+
+  return true;
+};

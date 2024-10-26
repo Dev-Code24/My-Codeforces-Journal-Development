@@ -1,4 +1,4 @@
-import Button from "../../ui/button";
+import Button from "./button";
 
 interface ModalProps {
   show: boolean;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CodeforcesForm from "../forms/codeforces-form";
 import { handleVerifyCodeforcesId } from "../../services/verify-codeforces-id";
-import Modal from "./modal";
+import Modal from "../../ui/modal";
 import { handleVerifyAppScriptUrl } from "../../services/verify-appscript-url";
 import AppsScriptForm from "../forms/appscript-form";
 import { storage } from "../../storage-fallback";

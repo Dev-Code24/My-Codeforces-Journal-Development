@@ -10,3 +10,14 @@ chrome.runtime.onMessage.addListener((message) => {
     chrome.runtime.reload();
   }
 });
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.url) {
+    console.log("Tab URL changed to:", changeInfo.url);
+  }
+});
+
+chrome.action.onClicked.addListener((tab) => {
+  // Send a message to the content script to open the modal
+  chrome.tabs.sendMessage(tab.id, { action: "openModal" });
+});

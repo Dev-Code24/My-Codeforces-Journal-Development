@@ -1,5 +1,6 @@
 import React from "react";
-import { storage } from "../storage-fallback"; // Import the storage utility
+import { storage } from "../storage-fallback"; 
+import { codeforcesUserFetchUrl } from "./request-urls";
 
 type Params = (
   codeforcesId: string,
@@ -21,11 +22,11 @@ export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, s
     }
 
     setLoading(true);
+    // Comment the following in prod
     console.log(codeforcesId);
 
     const userId = codeforcesId.substring(31);
-    const url = "https://codeforces.com/api/user.info?handles=USERID";
-    const fetchUrl = url.replace("USERID", userId);
+    const fetchUrl = codeforcesUserFetchUrl.replace("USERID", userId);
 
     try {
       const response = await fetch(fetchUrl);

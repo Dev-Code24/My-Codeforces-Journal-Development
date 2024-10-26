@@ -8,18 +8,9 @@ export default defineConfig({
     react(),
     viteStaticCopy({
       targets: [
-        {
-          src: "manifest.json",
-          dest: ".",
-        },
-        {
-          src: "public/background.js",
-          dest: ".",
-        },
-        {
-          src: "icon.png",
-          dest: ".",
-        },
+        { src: "manifest.json", dest: "." },
+        { src: "public/background.js", dest: "." },
+        { src: "public/icon.png", dest: "." },
       ],
     }),
   ],
@@ -27,11 +18,12 @@ export default defineConfig({
     rollupOptions: {
       input: {
         popup: resolve(__dirname, "index.html"),
+        contentScript: resolve(__dirname, "src/contentScript.ts"),
       },
       output: {
-        entryFileNames: `assets/[name].js`,
-        chunkFileNames: `assets/[name].js`,
-        assetFileNames: `assets/[name].[ext]`,
+        entryFileNames: "assets/[name].js",
+        chunkFileNames: "assets/[name].js",
+        assetFileNames: "assets/[name].[ext]",
       },
     },
   },

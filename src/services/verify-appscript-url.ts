@@ -1,6 +1,7 @@
 // https://script.google.com/macros/s/AKfycbz7W2YZN2_gSvvjcZBn954J57smt5n4XWKAZDEH-M877Cmfpj4FbRbY8kL8yCCs0SJbpw/exec
 import axios from "axios";
 import { storage } from "../storage-fallback";
+import { appscriptFetchUrl } from "./request-urls";
 
 type Params = (
   appScriptUrl: string,
@@ -23,8 +24,7 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
 
     try {
       const SECRET_HASH = appScriptUrl.split("/")[5];
-      const defaultUrl = "https://script.google.com/macros/s/SECRET_HASH/exec";
-      const fetchUrl = `${defaultUrl.replace("SECRET_HASH", SECRET_HASH)}?action=initialize`;
+      const fetchUrl = appscriptFetchUrl.replace("SECRET_HASH", SECRET_HASH);
       storage.set(
         {
           APP_SCRIPT_URL: appScriptUrl,
