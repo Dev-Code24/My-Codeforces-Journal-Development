@@ -109,6 +109,7 @@ export async function handleAddProblems(data: Params) {
           dateSolved,
           takeaways: data.takeaways,
           problemTopics,
+          problemUrl: CURRENT_TAB_URL,
         };
 
         const SECRET_HASH = APP_SCRIPT_URL.split("/")[5];
