@@ -6,12 +6,13 @@ import { storage } from "./storage-fallback";
 
 // Default values for Chrome storage variables
 const defaultValues = {
-  APP_SCRIPT_URL: " ",
+  APP_SCRIPT_URL: "",
   CODEFORCES_ID: "",
-  CODEFORCES_AVATAR_URL: " ",
+  CODEFORCES_AVATAR_URL: "",
   CODEFORCES_VERIFIED: false,
   APPSCRIPT_VERIFIED: false,
   SETUP_COMPLETE: false,
+  CURRENT_TAB_URL: "",
 };
 
 // Function to initialize storage with default values using storageFallback
@@ -39,9 +40,8 @@ const initializeStorageDefaults = () => {
 };
 
 // Run the initialization before rendering the app
-initializeStorageDefaults(); // Ensure defaults are set
+initializeStorageDefaults();
 
-// Render the React app
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />

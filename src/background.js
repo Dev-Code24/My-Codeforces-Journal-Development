@@ -1,4 +1,5 @@
 // public/background.js
+import { handleAddProblems } from "../src/services/add-problem";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Extension installed.");
@@ -20,4 +21,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 chrome.action.onClicked.addListener((tab) => {
   // Send a message to the content script to open the modal
   chrome.tabs.sendMessage(tab.id, { action: "openModal" });
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "submitProblem") {
+    handleAddProblems(request.data)
+      .then((result) => sendResponse({ status: "success", result }))
+      .catch((error) => sendResponse({ status: "error", error: error.message }));
+    return true; // Keep the message channel open for async response
+  }
 });

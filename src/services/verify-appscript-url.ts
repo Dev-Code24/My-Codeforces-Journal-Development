@@ -24,7 +24,7 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
 
     try {
       const SECRET_HASH = appScriptUrl.split("/")[5];
-      const fetchUrl = appscriptFetchUrl.replace("SECRET_HASH", SECRET_HASH);
+      const fetchUrl = appscriptFetchUrl.replace("SECRET_HASH", SECRET_HASH).concat("?action=initialize");
       storage.set(
         {
           APP_SCRIPT_URL: appScriptUrl,

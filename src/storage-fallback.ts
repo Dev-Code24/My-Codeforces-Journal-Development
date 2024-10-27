@@ -40,6 +40,8 @@ export const storage = {
             break;
           case "SETUP_COMPLETE":
             result.SETUP_COMPLETE = window.SETUP_COMPLETE;
+          case "CURRENT_TAB_URL":
+            result.CURRENT_TAB_URL = window.CURRENT_TAB_URL;
             break;
           default:
             result[key] = undefined;
@@ -87,6 +89,8 @@ export const storage = {
             break;
           case "SETUP_COMPLETE":
             window.SETUP_COMPLETE = items[key];
+          case "CURRENT_TAB_URL":
+            window.CURRENT_TAB_URL = items[key];
             break;
           default:
             console.warn(`Unknown key: ${key}. Skipping assignment.`);

@@ -8,13 +8,14 @@
     "default_icon": "icon.png"
   },
   "permissions": ["tabs", "activeTab", "storage", "scripting"],
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
   "content_scripts": [
     {
       "matches": ["https://codeforces.com/*"],
       "js": ["assets/contentScript.js"]
     }
-  ],
-  "background": {
-    "service_worker": "background.js"
-  }
+  ]
 }

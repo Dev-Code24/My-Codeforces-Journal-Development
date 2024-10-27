@@ -8,5 +8,6 @@ declare global {
     CODEFORCES_AVATAR_URL: string;
     CODEFORCES_VERIFIED: boolean;
     SETUP_COMPLETE: boolean;
+    CURRENT_TAB_URL: string;
   }
 }

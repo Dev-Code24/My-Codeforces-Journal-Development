@@ -1,4 +1,4 @@
-import { handleAddProblems } from "./services/add-problem";
+// import { handleAddProblems } from "./services/add-problem";
 
 const modalHTML = `
 <div id="extensionModalBackground" style="display:none; position:fixed; inset:0; background-color:rgba(0, 0, 0, 0.7); z-index: 10000;">
@@ -40,8 +40,17 @@ document.getElementById("submitModalButton")!.addEventListener("click", async (e
   const takeaways = (document.getElementById("takeaways") as HTMLTextAreaElement).value;
   const data = { remarks, takeaways };
 
-  // Call the handleSubmit function with form data
-  handleAddProblems(data);
+  // Send the data to the background script
+  chrome.runtime.sendMessage(
+    { action: "submitProblem", data },
+    (response) => {
+      if (response.status === "success") {
+        console.log("Submission complete:", response.result);
+      } else {
+        console.error("Error submitting problem:", response.error);
+      }
+    }
+  );
 
   // Close the modal after submission
   document.getElementById("extensionModalBackground")!.style.display = "none";
