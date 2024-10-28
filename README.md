@@ -65,10 +65,11 @@ function doPost(e) {
       return ContentService.createTextOutput(JSON.stringify({ status: "success", exists: problemExists })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // Initialization and problem-adding logic
+    // (Your existing 'initialize' and 'addProblem' logic here)
     if (data.action === "initialize") {
       var headers = ["Rating", "Problem", "Status", "Remarks", "Date", "Takeaway", "Topics"];
       if (sheet.getLastRow() === 0 || sheet.getRange("A1").getValue() === "") {
+        // Initialization logic remains the same
         sheet.getRange("A1:G1").merge();
         sheet.getRange("A1").setValue("Codeforces Sheet");
         sheet.getRange("A1").setFontSize(13).setHorizontalAlignment("center").setBackground("#ffd966");
