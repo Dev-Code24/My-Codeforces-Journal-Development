@@ -105,14 +105,14 @@ export async function handleAddProblems(data: Params, callback: (message: string
             year: "numeric",
           })
           .replace(/ /g, "-");
-        
+
         const checkProblemResponse = await axios.post(
           fetchCheckProblemUrl,
           { action: "checkProblem", problemName },
           { headers: { "Content-Type": "text/plain" } }
         );
         if (checkProblemResponse.data.exists) {
-          const message = "You have already added this problem to your spreadsheet!";
+          const message = "Problem already exists in the spreadsheet!";
           console.log(message);
           callback(message, false);
           return;
