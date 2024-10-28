@@ -47,7 +47,8 @@ const AddProblems = () => {
     if (DEV_OR_PROD === "prod") {
       openModalOnPage();
     } else {
-      const data: { takeaways: string; remarks: string } = {
+      const data: { status: string; takeaways: string; remarks: string } = {
+        status: "developing",
         takeaways: "developing",
         remarks: "developing",
       };

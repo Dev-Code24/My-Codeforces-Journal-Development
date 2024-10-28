@@ -49,6 +49,7 @@ function searchResult(result: Problem[], param: SearchParams): Problem[] {
 }
 
 type Params = {
+  status: string;
   remarks: string;
   takeaways: string;
 };
@@ -90,7 +91,6 @@ export async function handleAddProblems(data: Params) {
         const problemRating = problemDetails.rating || "N/A";
         const problemName = `Problem${problemDetails.contestId}${problemDetails.index}`;
         const problemTopics = problemDetails.tags.join(", ");
-        const problemStatus = "Solved";
         const date = new Date(solvedProblem[0].creationTimeSeconds * 1000);
         const dateSolved = date
           .toLocaleDateString("en-GB", {
@@ -104,7 +104,7 @@ export async function handleAddProblems(data: Params) {
           action: "addProblem",
           problemRating,
           problemName,
-          problemStatus,
+          problemStatus: data.status,
           remarks: data.remarks,
           dateSolved,
           takeaways: data.takeaways,
