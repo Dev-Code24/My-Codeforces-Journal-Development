@@ -54,10 +54,9 @@ type Params = {
   takeaways: string;
 };
 
-export async function handleAddProblems(data: Params) {
+export async function handleAddProblems(data: Params, callback: (message: string, success: boolean) => void) {
   storage.get(["APP_SCRIPT_URL", "CODEFORCES_ID", "CURRENT_TAB_URL"], async (result) => {
     const { APP_SCRIPT_URL, CODEFORCES_ID, CURRENT_TAB_URL } = result;
-
     const fetchUserStatusUrl: string = getUserStatusUrl.replace("CODEFORCES_ID", CODEFORCES_ID);
     let problemSolved = false;
 
@@ -78,11 +77,15 @@ export async function handleAddProblems(data: Params) {
           problemSolved = solvedProblem.length > 0;
 
           if (!problemSolved) {
-            console.error("Solve the problem first, then submit !");
+            const message = "Solve the problem first, then submit!";
+            console.error(message);
+            callback(message, false);
             return;
           }
         } else {
-          console.error("Failed to fetch Problem details !");
+          const message = "Failed to fetch Problem details!";
+          console.error(message);
+          callback(message, false);
           return;
         }
 
@@ -98,7 +101,7 @@ export async function handleAddProblems(data: Params) {
             month: "short",
             year: "numeric",
           })
-          .replace(/ /g, "-"); // formatted to 24-Feb-2004
+          .replace(/ /g, "-");
 
         const payload = {
           action: "addProblem",
@@ -121,15 +124,23 @@ export async function handleAddProblems(data: Params) {
         });
 
         if (response.status === 200 && response.data.status === "success") {
-          console.log("Problem data successfully added to your Spreadsheet!");
+          const message = "Problem data successfully added to your Spreadsheet!";
+          console.log(message);
+          callback(message, true);
         } else {
-          console.error("Failed to add problem data:", response.data.message);
+          const message = `Failed to add problem data: ${response.data.message}`;
+          console.error(message);
+          callback(message, false);
         }
       } else {
-        console.error("Failed to fetch Problem details !");
+        const message = "Failed to fetch Problem details!";
+        console.error(message);
+        callback(message, false);
       }
     } catch (error) {
-      console.error("An error occurred while adding the problem:", error);
+      const message = `An error occurred while adding the problem: ${error}`;
+      console.error(message);
+      callback(message, false);
     }
   });
 }

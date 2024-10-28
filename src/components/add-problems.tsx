@@ -52,7 +52,13 @@ const AddProblems = () => {
         takeaways: "developing",
         remarks: "developing",
       };
-      handleAddProblems(data);
+      handleAddProblems(data, (message, success) => {
+        if (success) {
+          console.log({ status: "success", result: message });
+        } else {
+          console.error({ status: "error", error: message });
+        }
+      });
     }
   };
 

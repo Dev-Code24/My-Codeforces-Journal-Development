@@ -25,9 +25,14 @@ chrome.action.onClicked.addListener((tab) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "submitProblem") {
-    handleAddProblems(request.data)
-      .then((result) => sendResponse({ status: "success", result }))
-      .catch((error) => sendResponse({ status: "error", error: error.message }));
+    handleAddProblems(request.data, (message, success) => {
+      if (success) {
+        sendResponse({ status: "success", result: message });
+      } else {
+        sendResponse({ status: "error", error: message });
+      }
+    });
+
     return true; // Keep the message channel open for async response
   }
 });
