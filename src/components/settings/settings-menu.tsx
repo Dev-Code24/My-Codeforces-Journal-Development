@@ -9,9 +9,9 @@ import { storage } from "../../storage-fallback";
 interface SettingsProps {
   codeforcesId: string;
   setCodeforcesId: (value: string) => void;
-  error: boolean;
+  error: string;
   isLoading: boolean;
-  setError: React.Dispatch<React.SetStateAction<boolean>>;
+  setError: React.Dispatch<React.SetStateAction<string>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   appScriptUrl: string;
   setAppScriptUrl: React.Dispatch<React.SetStateAction<string>>;

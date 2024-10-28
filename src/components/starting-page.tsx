@@ -8,23 +8,17 @@ import { handleVerifyAppScriptUrl } from "../services/verify-appscript-url";
 import AddProblems from "./add-problems";
 import SettingsMenu from "./settings/settings-menu";
 import { storage } from "../storage-fallback";
+import { checkAppScriptUrl, checkCodeforcesUrl } from "../util/utility";
 
 const StartingPage: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [appScriptUrl, setAppScriptUrl] = useState("https://script.google.com/macros/s/");
   const [codeforcesId, setCodeforcesId] = useState("https://codeforces.com/profile/user__Id");
-  const [error, setError] = useState(false);
+  const [correctCodeforcesId, setCorrectCodeforcesId] = useState(false);
+  const [correctAppScriptUrl, setCorrectAppScriptUrl] = useState(false);
+  const [error, setError] = useState("NoError");
   const [isLoading, setLoading] = useState(false);
   const [setupComplete, setSetupComplete] = useState(false);
-  const [problemDetails, setProblemDetails] = useState({
-    problemName: "",
-    problemRating: "",
-    problemStatus: "",
-    remarks: "",
-    dateSolved: "",
-    takeaways: "",
-    problemTopics: "",
-  });
 
   useEffect(() => {
     storage.get(["SETUP_COMPLETE"], (result) => {
@@ -48,13 +42,22 @@ const StartingPage: React.FC = () => {
     };
   }, [window.SETUP_COMPLETE]);
 
+  useEffect(() => {
+    setCorrectCodeforcesId(checkCodeforcesUrl(codeforcesId));
+    console.log(correctCodeforcesId);
+  }, [codeforcesId]);
+  useEffect(() => {
+    setCorrectAppScriptUrl(checkAppScriptUrl(appScriptUrl));
+    console.log(correctAppScriptUrl);
+  }, [appScriptUrl]);
+
   const handleTryAgainCodeforcesForm = () => {
     setCodeforcesId("https://codeforces.com/profile/user__Id");
-    setError(false);
+    setError("NoError");
   };
   const handleTryAgainAppScriptForm = () => {
     setAppScriptUrl("https://script.google.com/macros/s/");
-    setError(false);
+    setError("NoError");
   };
   return (
     <div className="p-2 h-full flex flex-col">
@@ -107,7 +110,7 @@ const StartingPage: React.FC = () => {
         {/* Bottom */}
         {!setupComplete && pageNumber < 4 && (
           <div className="buttons flex justify-between items-center mx-auto max-w-[355px] mt-2">
-            {!error && (
+            {error.includes("NoError") && (
               <>
                 {pageNumber !== 1 ? (
                   <>
@@ -115,11 +118,21 @@ const StartingPage: React.FC = () => {
                     <div className="flex-grow" />
                     {pageNumber == 2 ? (
                       <>
-                        <Button onClick={() => handleVerifyCodeforcesId(codeforcesId, setError, setPageNumber, setLoading, undefined)}>Next</Button>
+                        <Button
+                          disabled={!correctCodeforcesId}
+                          onClick={() => handleVerifyCodeforcesId(codeforcesId, setError, setPageNumber, setLoading, undefined)}
+                        >
+                          Next
+                        </Button>
                       </>
                     ) : (
                       <>
-                        <Button onClick={() => handleVerifyAppScriptUrl(appScriptUrl, setError, setPageNumber, setLoading, undefined)}>Submit</Button>
+                        <Button
+                          disabled={!correctAppScriptUrl}
+                          onClick={() => handleVerifyAppScriptUrl(appScriptUrl, setError, setPageNumber, setLoading, undefined)}
+                        >
+                          Submit
+                        </Button>
                       </>
                     )}
                   </>

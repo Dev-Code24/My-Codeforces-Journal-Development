@@ -7,7 +7,7 @@ import Alert from "../alert";
 interface Props {
   url: string;
   setUrl: React.Dispatch<React.SetStateAction<string>>;
-  error: boolean;
+  error: string;
   isLoading: boolean;
   onTryAgain: () => void;
 }
@@ -19,7 +19,7 @@ const AppsScriptForm: React.FC<Props> = ({ url, setUrl, error, isLoading, onTryA
         <div className="flex justify-center items-center min-h-[190px]">
           <Loader>Verifying...</Loader>
         </div>
-      ) : !error ? (
+      ) : error.includes("NoError") ? (
         <div className="w-[355px] h-full flex flex-col min-h-[190px]">
           <label htmlFor="codeforcesId" className="font-semibold text-lg">
             Your Spreadsheet's AppScript Url:

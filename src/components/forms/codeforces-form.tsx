@@ -6,7 +6,7 @@ import Alert from "../alert";
 interface Props {
   codeforcesId: string;
   setCodeforcesId: (value: string) => void;
-  error: boolean;
+  error: string;
   isLoading: boolean;
   onTryAgain: () => void;
 }
@@ -18,7 +18,7 @@ const CodeforcesForm: React.FC<Props> = ({ codeforcesId, setCodeforcesId, error,
         <div className="flex justify-center items-center min-h-[190px]">
           <Loader>Verifying...</Loader>
         </div>
-      ) : !error ? (
+      ) : error.includes("NoError") ? (
         <div className="w-[355px] min-h-[190px] h-full flex flex-col">
           <label htmlFor="codeforcesId" className="font-semibold text-lg">
             Your Codeforces Id:
@@ -34,7 +34,7 @@ const CodeforcesForm: React.FC<Props> = ({ codeforcesId, setCodeforcesId, error,
           {checkCodeforcesUrl(codeforcesId) !== true && <p className="m-2 text-danger-red">Put a valid codeforces URL!</p>}
         </div>
       ) : (
-        <Alert title="USER NOT FOUND !" description="Try Again !" onTryAgain={onTryAgain} />
+        <Alert title={error} description="Try Again !" onTryAgain={onTryAgain} />
       )}
     </div>
   );

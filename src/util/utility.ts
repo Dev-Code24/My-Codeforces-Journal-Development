@@ -1,6 +1,6 @@
 export const checkCodeforcesUrl = (url: string) => {
   const checkStr = "https://codeforces.com/profile/";
-  if (url.includes(checkStr)) return true;
+  if (url.includes(checkStr) && !url.includes("user__Id")) return true;
 
   return false;
 };

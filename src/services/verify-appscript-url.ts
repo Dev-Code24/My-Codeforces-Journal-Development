@@ -5,7 +5,7 @@ import { appscriptFetchUrl } from "./request-urls";
 
 type Params = (
   appScriptUrl: string,
-  setError: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string>>,
   setPageNumber: React.Dispatch<React.SetStateAction<number>> | undefined,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   closeModal: (() => void) | undefined
@@ -64,18 +64,18 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
           if (setPageNumber) setPageNumber(4);
           console.log("Sheet initialized successfully:", data.message);
         } else {
-          setError(true);
+          setError("Error! " + data?.message);
           console.error("Initialization failed:", data.message);
         }
       } else {
-        setError(true);
+        setError("Error intializing Spreadsheet!");
         console.error("Error during initialization:", response.statusText);
       }
 
       if (closeModal) closeModal();
     } catch (error) {
       setLoading(false);
-      setError(true);
+      setError("Error! Something bad happened!");
       if (closeModal) closeModal();
       console.error("Request failed:", error);
     }

@@ -1,10 +1,10 @@
 import React from "react";
-import { storage } from "../storage-fallback"; 
+import { storage } from "../storage-fallback";
 import { codeforcesUserFetchUrl } from "./request-urls";
 
 type Params = (
   codeforcesId: string,
-  setError: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string>>,
   setPageNumber: React.Dispatch<React.SetStateAction<number>> | undefined,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   closeModal: (() => void) | undefined
@@ -52,16 +52,18 @@ export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, s
           setLoading(false);
           if (setPageNumber) setPageNumber(3);
         } else {
-          setError(true);
+          setError("Error! Try Again: " + data?.comment);
+          setLoading(false);
         }
       } else {
-        setError(true);
+        setError("Error! Something bad happened!");
+        setLoading(false);
       }
 
       if (closeModal) closeModal();
     } catch (error) {
       setLoading(false);
-      setError(true);
+      setError("Error fetching Codeforces data");
       console.error("Error fetching Codeforces data:", error);
 
       if (closeModal) closeModal();
