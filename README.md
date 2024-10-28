@@ -134,8 +134,9 @@ function doPost(e) {
 ## Usage
 
 1. Open any Codeforces problem page.
-2. Once you’ve solved the problem, click on the **My Codeforces Journal** extension icon.
-3. The problem details will be automatically saved to the connected spreadsheet.
+2. Once you’ve solved the problem, click on the My Codeforces Journal extension icon, and then click on "Add Problem."
+3. Fill in the form, and press "Submit."
+4. The problem details will be automatically saved to the connected spreadsheet.
 
 ## Permissions
 
