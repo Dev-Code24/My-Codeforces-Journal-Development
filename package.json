@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && vite build --config vite.config.contentScript.ts",
+    "build": "tsc -b && vite build && vite build --config vite.config.contentScript.ts && mkdir build && cp -r dist build/dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
