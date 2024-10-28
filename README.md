@@ -19,7 +19,7 @@ Before you can use the extension, make sure you have the following:
 
 ### Installation
 
-1. Download the `dist` folder from the following link: [example.com](https://example.com)
+1. Download the `dist` folder from the following link: [My Codeforces Journal](https://github.com/Dev-Code24/My-Codeforces-Journal)
 2. Open Chrome and go to `chrome://extensions/`.
 3. Enable **Developer mode** in the top right corner.
 4. Click on **Load unpacked** and select the folder where the `dist` folder is saved.
