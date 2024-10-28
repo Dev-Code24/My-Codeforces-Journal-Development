@@ -58,12 +58,15 @@ export async function handleAddProblems(data: Params, callback: (message: string
   storage.get(["APP_SCRIPT_URL", "CODEFORCES_ID", "CURRENT_TAB_URL"], async (result) => {
     const { APP_SCRIPT_URL, CODEFORCES_ID, CURRENT_TAB_URL } = result;
     const fetchUserStatusUrl: string = getUserStatusUrl.replace("CODEFORCES_ID", CODEFORCES_ID);
+    const fetchCheckProblemUrl = `${APP_SCRIPT_URL}?action=checkProblem`;
     let problemSolved = false;
 
     try {
+      // Step 1: Fetch the problem details, and check if it has been solved or not
       const userStatus = await fetch(fetchUserStatusUrl);
       let searchObj: SearchParams;
       let solvedProblem: Problem[];
+
       if (userStatus.ok) {
         const userStatusData = await userStatus.json();
         if (userStatusData?.status === "OK") {
@@ -89,7 +92,7 @@ export async function handleAddProblems(data: Params, callback: (message: string
           return;
         }
 
-        // Extract problem details
+        //  Step 2: Check if the problem already exists in the spreadsheet
         const problemDetails = solvedProblem[0].problem;
         const problemRating = problemDetails.rating || "N/A";
         const problemName = `Problem${problemDetails.contestId}${problemDetails.index}`;
@@ -102,6 +105,20 @@ export async function handleAddProblems(data: Params, callback: (message: string
             year: "numeric",
           })
           .replace(/ /g, "-");
+        
+        const checkProblemResponse = await axios.post(
+          fetchCheckProblemUrl,
+          { action: "checkProblem", problemName },
+          { headers: { "Content-Type": "text/plain" } }
+        );
+        if (checkProblemResponse.data.exists) {
+          const message = "You have already added this problem to your spreadsheet!";
+          console.log(message);
+          callback(message, false);
+          return;
+        }
+
+        // Step 3: Prepare payload and fetchSubmitProblemUrl for adding the problem to the spreadsheet
 
         const payload = {
           action: "addProblem",
@@ -118,7 +135,7 @@ export async function handleAddProblems(data: Params, callback: (message: string
         const SECRET_HASH = APP_SCRIPT_URL.split("/")[5];
         const fetchSubmitProblemUrl = appscriptFetchUrl.replace("SECRET_HASH", SECRET_HASH);
 
-        // Send POST request to Google Apps Script
+        // Step 4: Send POST request to Google Apps Script
         const response = await axios.post(fetchSubmitProblemUrl, payload, {
           headers: { "Content-Type": "text/plain" },
         });
