@@ -34,7 +34,7 @@ const modalHTML = `
     <textarea id="takeaways" name="takeaways" rows="10" style="flex-grow:1; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 15px; resize: none;" placeholder="How did you solve the problem ? Explain your thought process."></textarea>
     
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
-      <button id="cancelModalButton" style="background-color: #ccc; padding: 6px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Cancel</button>
+      <button id="cancelModalButton" style="background-color: #ccc; padding: 6px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Close</button>
       <button type="submit" id="submitModalButton" style="background:transparent; color: rgb(38 38 38 / 1); padding: 6px 20px; border: 1px solid; border-color: rgb(38 38 38 / 1); border-radius: 5px; cursor: pointer; font-weight: bold; position: relative;">
         <span id="submitButtonText">Submit</span>
         <div id="loadingSpinnerWrapper" class="spinnerWrapper" style="display: none;width: 100%;">
