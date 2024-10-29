@@ -10,6 +10,8 @@ import SettingsMenu from "./settings/settings-menu";
 import { storage } from "../storage-fallback";
 import { checkAppScriptUrl, checkCodeforcesUrl } from "../util/utility";
 
+const DEV_OR_PROD = import.meta.env.VITE_DEV_OR_PROD;
+
 const StartingPage: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [appScriptUrl, setAppScriptUrl] = useState("https://script.google.com/macros/s/");
@@ -44,11 +46,11 @@ const StartingPage: React.FC = () => {
 
   useEffect(() => {
     setCorrectCodeforcesId(checkCodeforcesUrl(codeforcesId));
-    console.log(correctCodeforcesId);
+    if (DEV_OR_PROD === "dev") console.log(correctCodeforcesId);
   }, [codeforcesId]);
   useEffect(() => {
     setCorrectAppScriptUrl(checkAppScriptUrl(appScriptUrl));
-    console.log(correctAppScriptUrl);
+    if (DEV_OR_PROD === "dev") console.log(correctAppScriptUrl);
   }, [appScriptUrl]);
 
   const handleTryAgainCodeforcesForm = () => {

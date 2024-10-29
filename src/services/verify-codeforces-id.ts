@@ -2,6 +2,8 @@ import React from "react";
 import { storage } from "../storage-fallback";
 import { codeforcesUserFetchUrl } from "./request-urls";
 
+const DEV_OR_PROD = import.meta.env.VITE_DEV_OR_PROD;
+
 type Params = (
   codeforcesId: string,
   setError: React.Dispatch<React.SetStateAction<string>>,
@@ -22,8 +24,8 @@ export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, s
     }
 
     setLoading(true);
-    // Comment the following in prod
-    console.log(codeforcesId);
+    
+    if (DEV_OR_PROD === "dev") console.log(codeforcesId);
 
     const userId = codeforcesId.substring(31);
     const fetchUrl = codeforcesUserFetchUrl.replace("USERID", userId);
