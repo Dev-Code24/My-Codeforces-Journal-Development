@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && vite build --config vite.config.contentScript.ts",
-    "prodbuild": "tsc -b && vite build && vite build --config vite.config.contentScript.ts && rm -rf build/dist && mkdir -p build && cp -r dist build/dist",
+    "prodbuild": "tsc -b && vite build && vite build --config vite.config.contentScript.ts && rm -rf build/dist && rm build/README.md && mkdir -p build && cp -r dist build/dist && rm -f build/README.md && cp README.md build/",
     "lint": "eslint .",
     "preview": "vite preview"
   },
