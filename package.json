@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:web": "vite",
+    "dev:chrome": "concurrently 'vite build --watch --mode development' 'vite build --config vite.config.contentScript.ts --watch --mode development'",
     "build": "tsc -b && vite build && vite build --config vite.config.contentScript.ts",
     "prodbuild": "tsc -b && vite build && vite build --config vite.config.contentScript.ts && rm -rf build/dist && rm build/README.md && mkdir -p build && cp -r dist build/dist && rm -f build/README.md && cp README.md build/",
     "lint": "eslint .",
@@ -26,6 +27,7 @@
     "@typescript-eslint/parser": "^8.4.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.0",
     "eslint": "^9.10.0",
     "eslint-plugin-react": "^7.35.2",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",

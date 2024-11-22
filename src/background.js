@@ -1,4 +1,3 @@
-// public/background.js
 import { handleAddProblems } from "../src/services/add-problem";
 
 chrome.runtime.onInstalled.addListener(() => {

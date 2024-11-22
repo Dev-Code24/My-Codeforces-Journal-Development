@@ -16,7 +16,11 @@ export default defineConfig(({ mode }) => {
         ],
       }),
     ],
-    DEV_OR_PROD: JSON.stringify(env.VITE_DEV_OR_PROD),
+    define: {
+      DEV_OR_PROD: JSON.stringify(env.VITE_DEV_OR_PROD),
+      DEV_CODEFORCES_ID: JSON.stringify(env.DEV_CODEFORCES_ID),
+      DEV_APPSCRIPT_URL: JSON.stringify(env.DEV_APPSCRIPT_URL),
+    },
     build: {
       rollupOptions: {
         input: {

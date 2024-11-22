@@ -1,17 +1,16 @@
-// https://script.google.com/macros/s/AKfycbx1LNirb7VIqkcsz9_-OVfe59CJINTcWWk_a2TPkypcMbtnfjIZ23UUTG7PZzUakVg9_Q/exec
 import axios from "axios";
 import { storage } from "../storage-fallback";
 import { appscriptFetchUrl } from "./request-urls";
 
 type Params = (
   appScriptUrl: string,
-  setError: React.Dispatch<React.SetStateAction<string>>,
-  setPageNumber: React.Dispatch<React.SetStateAction<number>> | undefined,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: (param: string) => void,
+  setPageNumber: (param: number) => void | undefined,
+  setLoading: (param: boolean) => void,
   closeModal: (() => void) | undefined
 ) => void;
 
-export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, setPageNumber, setLoading, closeModal) => {
+const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, setPageNumber, setLoading, closeModal) => {
   storage.get(["APP_SCRIPT_URL", "APPSCRIPT_VERIFIED", "SETUP_COMPLETE"], async (result) => {
     const { APPSCRIPT_VERIFIED } = result;
 
@@ -81,3 +80,13 @@ export const handleVerifyAppScriptUrl: Params = async (appScriptUrl, setError, s
     }
   });
 };
+
+if (DEV_OR_PROD === "development" && DEV_APPSCRIPT_URL !== " ") {
+  const dummySetError = (param: string) => {};
+  const dummySetPageNumber = (param: number) => {};
+  const dummySetLoading = (param: boolean) => {};
+  const dummyCloseModal = () => {};
+  handleVerifyAppScriptUrl(DEV_APPSCRIPT_URL!, dummySetError, dummySetPageNumber, dummySetLoading, dummyCloseModal);
+}
+
+export { handleVerifyAppScriptUrl };

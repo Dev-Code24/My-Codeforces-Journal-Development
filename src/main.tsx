@@ -4,10 +4,9 @@ import App from "./App";
 import "./index.css";
 import { storage } from "./storage-fallback";
 
-// Default values for Chrome storage variables
 const defaultValues = {
-  APP_SCRIPT_URL: "",
-  CODEFORCES_ID: "",
+  APP_SCRIPT_URL: DEV_OR_PROD === "development" ? DEV_APPSCRIPT_URL : "",
+  CODEFORCES_ID: DEV_OR_PROD === "development" ? DEV_CODEFORCES_ID : "",
   CODEFORCES_AVATAR_URL: "",
   CODEFORCES_VERIFIED: false,
   APPSCRIPT_VERIFIED: false,
@@ -15,9 +14,8 @@ const defaultValues = {
   CURRENT_TAB_URL: "",
 };
 
-// Function to initialize storage with default values using storageFallback
 const initializeStorageDefaults = () => {
-  // Get current values using storageFallback's get method
+  // Get current values using storageFallback's get metho
   storage.get(Object.keys(defaultValues), (result) => {
     // Create newValues object that allows setting values dynamically with correct types
     const newValues: Partial<Record<keyof typeof defaultValues, string | boolean>> = {};
@@ -39,7 +37,6 @@ const initializeStorageDefaults = () => {
   });
 };
 
-// Run the initialization before rendering the app
 initializeStorageDefaults();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

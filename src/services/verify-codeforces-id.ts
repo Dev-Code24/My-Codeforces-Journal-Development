@@ -2,17 +2,15 @@ import React from "react";
 import { storage } from "../storage-fallback";
 import { codeforcesUserFetchUrl } from "./request-urls";
 
-const DEV_OR_PROD = import.meta.env.VITE_DEV_OR_PROD;
-
 type Params = (
   codeforcesId: string,
-  setError: React.Dispatch<React.SetStateAction<string>>,
-  setPageNumber: React.Dispatch<React.SetStateAction<number>> | undefined,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: (param: string) => void,
+  setPageNumber: (param: number) => void | undefined,
+  setLoading: (param: boolean) => void,
   closeModal: (() => void) | undefined
 ) => void;
 
-export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, setPageNumber, setLoading, closeModal) => {
+const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, setPageNumber, setLoading, closeModal) => {
   // Use the storage utility to get the necessary variables
   storage.get(["CODEFORCES_VERIFIED", "CODEFORCES_ID", "CODEFORCES_AVATAR_URL"], async (result) => {
     const { CODEFORCES_VERIFIED } = result;
@@ -24,8 +22,8 @@ export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, s
     }
 
     setLoading(true);
-    
-    if (DEV_OR_PROD === "dev") console.log(codeforcesId);
+
+    if (DEV_OR_PROD === "development") console.log(codeforcesId);
 
     const userId = codeforcesId.substring(31);
     const fetchUrl = codeforcesUserFetchUrl.replace("USERID", userId);
@@ -72,3 +70,13 @@ export const handleVerifyCodeforcesId: Params = async (codeforcesId, setError, s
     }
   });
 };
+
+if (DEV_OR_PROD === "development" && DEV_CODEFORCES_ID !== " ") {
+  const dummySetError = (param: string) => {};
+  const dummySetPageNumber = (param: number) => {};
+  const dummySetLoading = (param: boolean) => {};
+  const dummyCloseModal = () => {};
+  handleVerifyCodeforcesId(DEV_CODEFORCES_ID!, dummySetError, dummySetPageNumber, dummySetLoading, dummyCloseModal);
+}
+
+export { handleVerifyCodeforcesId };
