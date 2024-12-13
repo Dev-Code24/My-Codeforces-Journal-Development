@@ -1,4 +1,3 @@
-// https://script.google.com/macros/s/AKfycbz7W2YZN2_gSvvjcZBn954J57smt5n4XWKAZDEH-M877Cmfpj4FbRbY8kL8yCCs0SJbpw/exec
 import React from "react";
 import { checkAppScriptUrl } from "../../util/utility";
 import Loader from "../loader";

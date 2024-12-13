@@ -49,13 +49,47 @@ const modalHTML = `
 // Inject the modal HTML into the page
 document.body.insertAdjacentHTML("beforeend", modalHTML);
 
-// Add event listener to open the modal
+// Add event listener to open the modal and prefill it if data exists
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "openModal") {
     document.getElementById("extensionModalBackground")!.style.display = "block";
     document.getElementById("modalMessage")!.textContent = "";
   }
+
+  if (request.action === "prefillModal") {
+    const { data } = request;
+
+    const submitButtonText = document.getElementById("submitButtonText") as HTMLElement;
+    if (data.status === "success" && data.problem) {
+      if (submitButtonText) {
+        submitButtonText.innerText = "Edit";
+      }
+      prefillModal(data.problem);
+    } else {
+      if (submitButtonText) {
+        submitButtonText.innerText = "Submit";
+      }
+    }
+  }
 });
+
+// Prefill the modal with existing data
+function prefillModal(problem: { status: string; remarks: string; takeaways: string }) {
+  (document.getElementById("status") as HTMLTextAreaElement).value = problem.status;
+  (document.getElementById("remarks") as HTMLTextAreaElement).value = problem.remarks;
+  (document.getElementById("takeaways") as HTMLTextAreaElement).value = problem.takeaways;
+
+  document.getElementById("extensionModalBackground")!.style.display = "block";
+}
+
+// Open an empty modal
+// function openEmptyModal() {
+//   (document.getElementById("status") as HTMLTextAreaElement).value = "";
+//   (document.getElementById("remarks") as HTMLTextAreaElement).value = "";
+//   (document.getElementById("takeaways") as HTMLTextAreaElement).value = "";
+
+//   document.getElementById("extensionModalBackground")!.style.display = "block";
+// }
 
 // Add event listener to close the modal when "Cancel" is clicked
 document.getElementById("cancelModalButton")!.addEventListener("click", () => {
