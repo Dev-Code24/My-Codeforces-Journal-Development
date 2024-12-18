@@ -4,6 +4,17 @@
 
 ![video](https://github.com/user-attachments/assets/c59884bf-e87a-4a47-a028-e18eaf783d4a)
 
+## New Version 1.0.1
+The new update adds the following feature:
+1. Feature to update the problem details of problems already added to your spreadsheet
+
+Requirements for this new update:
+1. Update AppScript
+2. New Version of chrome-extension
+
+https://github.com/user-attachments/assets/84484cb1-668b-4abb-afa9-b84a803c4d82
+
+
 ## Contribute
 
 Want to contribute to this Chrome extension? Check out the repository here: [My Codeforces Journal Development](https://github.com/Dev-Code24/My-Codeforces-Journal-Development).
