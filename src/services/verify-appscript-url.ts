@@ -5,7 +5,7 @@ import { appscriptFetchUrl } from "./request-urls";
 type Params = (
   appScriptUrl: string,
   setError: (param: string) => void,
-  setPageNumber: (param: number) => void | undefined,
+  setPageNumber: ((param: number) => void) | undefined,
   setLoading: (param: boolean) => void,
   closeModal: (() => void) | undefined
 ) => void;

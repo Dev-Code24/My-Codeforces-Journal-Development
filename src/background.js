@@ -1,4 +1,5 @@
 import { handleAddProblems } from "../src/services/add-problem";
+import { handleUpdateProblems } from "../src/services/update-problem";
 import { appscriptFetchUrl } from "./services/request-urls";
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -26,6 +27,17 @@ chrome.action.onClicked.addListener((tab) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "submitProblem") {
     handleAddProblems(request.data, (message, success) => {
+      if (success) {
+        sendResponse({ status: "success", result: message });
+      } else {
+        sendResponse({ status: "error", error: message });
+      }
+    });
+
+    return true; // Keep the message channel open for async response
+  }
+  if (request.action === "updateProblem") {
+    handleUpdateProblems(request.data, (message, success) => {
       if (success) {
         sendResponse({ status: "success", result: message });
       } else {

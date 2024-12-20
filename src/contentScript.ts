@@ -48,6 +48,7 @@ const modalHTML = `
 
 // Inject the modal HTML into the page
 document.body.insertAdjacentHTML("beforeend", modalHTML);
+let _action: string;
 
 // Add event listener to open the modal and prefill it if data exists
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -61,6 +62,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     const submitButtonText = document.getElementById("submitButtonText") as HTMLElement;
     if (data.status === "success" && data.problem) {
+      _action = "updateProblem";
       if (submitButtonText) {
         submitButtonText.innerText = "Edit";
       }
@@ -81,15 +83,6 @@ function prefillModal(problem: { status: string; remarks: string; takeaways: str
 
   document.getElementById("extensionModalBackground")!.style.display = "block";
 }
-
-// Open an empty modal
-// function openEmptyModal() {
-//   (document.getElementById("status") as HTMLTextAreaElement).value = "";
-//   (document.getElementById("remarks") as HTMLTextAreaElement).value = "";
-//   (document.getElementById("takeaways") as HTMLTextAreaElement).value = "";
-
-//   document.getElementById("extensionModalBackground")!.style.display = "block";
-// }
 
 // Add event listener to close the modal when "Cancel" is clicked
 document.getElementById("cancelModalButton")!.addEventListener("click", () => {
@@ -112,8 +105,12 @@ document.getElementById("submitModalButton")!.addEventListener("click", async (e
   const takeaways = (document.getElementById("takeaways") as HTMLTextAreaElement).value;
   const data = { remarks, takeaways, status };
 
+  if (!_action) {
+    _action = "submitProblem";
+  }
+
   // Send the data to the background script and await response
-  chrome.runtime.sendMessage({ action: "submitProblem", data }, (response) => {
+  chrome.runtime.sendMessage({ action: _action, data }, (response) => {
     // Hide loading spinner and show submit text again
     submitButtonText.style.display = "inline";
     loadingSpinnerWrapper.style.display = "none";
